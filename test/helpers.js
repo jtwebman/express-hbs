@@ -1,5 +1,5 @@
 function stripWs(s) {
-  return s.replace(/\s+/g, '');
+  return s.replace(/\s+/g, '').replace(/\r\n/g, '\n');
 }
 
 function createLocals(which, viewsDir, locals) {
