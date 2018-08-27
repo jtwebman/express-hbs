@@ -12,7 +12,7 @@ function makeUserRequest(app, user, cb) {
       if (res.text.search('Hello, ' + user) <= 0) {
         return cb(new Error('Wrong template send for user ' + user + ': ' + res.text), user);
       }
-      return cb(null, user);
+      return cb(null, user, res.text);
     });
 }
 
@@ -49,6 +49,16 @@ describe('async', function() {
       assert.equal(results.jeff, 'Completed');
       assert.equal(results.jane, 'Completed');
       done();
+    });
+  });
+
+  it.only('should render nested async helpers', function(done) {
+    var app = asyncApp.create(hbs.create(), 'production');
+    makeUserRequest(app, 'jt', function(err, user, results) {
+      if (err) {
+        return done(err);
+      }
+      console.log(`results: ${results}`);
     });
   });
 });

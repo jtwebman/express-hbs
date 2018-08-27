@@ -2,3 +2,15 @@
   {{message}} {{{user username}}}
 {{/contentFor}}
 <span id="text">This should welcome {{username}}.</span>
+<div class="pages">
+{{#pages filter="tags:test"}}
+  <div class="page">
+    <span class="title">{{title}}</title>
+    <div class="top-comments">
+    {{#coments top="3"}}
+      <span class="subject">{{subject}}</span>-<span class="auther">{{auther}}</span>
+    {{/coments}}
+    </div>
+  </div>
+{{/pages}}
+</div>

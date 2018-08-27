@@ -6,6 +6,54 @@ var fs = require('fs');
 var path = require('path');
 var url = require('url');
 
+var pages = [
+  {
+    id: 1,
+    title: 'Title 1'
+  },
+  {
+    id: 2,
+    title: 'Title 2'
+  },
+  {
+    id: 3,
+    title: 'Title 3'
+  }
+]
+
+var comments = [
+  {
+    id: 1,
+    page: 1,
+    subject: 'Title 1 Comment 1',
+    auther: 'JT'
+  },
+  {
+    id: 2,
+    page: 1,
+    subject: 'Title 1 Comment 2',
+    auther: 'Anna'
+  },
+  {
+    id: 2,
+    page: 1,
+    subject: 'Title 1 Comment 3',
+    auther: 'Jane'
+  },
+  {
+    id: 2,
+    page: 1,
+    subject: 'Title 1 Comment 4',
+    auther: 'Bob'
+  },
+  {
+    id: 2,
+    page: 4,
+    subject: 'Title 4 Comment 1',
+    auther: 'Jill'
+  }
+]
+
 function getRandomNumber(min, max) {
   return Math.random() * (max - min) + min;
 }
@@ -34,6 +82,33 @@ function create(hbs, env) {
   hbs.registerAsyncHelper('user', function(username, resultcb) {
     setTimeout(function() {
       resultcb(username);
+    }, getRandomNumber(100, 900))
+  });
+
+  hbs.registerAsyncHelper('pages', function(options, resultcb) {
+    console.log(`pages options: ${JSON.stringify(options, null, 2)}`);
+    var self = this;
+    console.log(`pages self: ${JSON.stringify(self, null, 2)}`);
+    console.log(`options keys: ${JSON.stringify(Object.keys(options), null, 2)}`);
+    setTimeout(function() {
+      const result = [];
+      for(var i = 0; i < pages.length; i++) {
+        result.push(options.fn(pages[i]));
+      }
+      resultcb(result.join(''));
+    }, getRandomNumber(100, 900))
+  });
+
+  hbs.registerAsyncHelper('comments', function(options, resultcb) {
+    console.log(`comments options: ${JSON.stringify(options, null, 2)}`);
+    var self = this;
+    console.log(`comments self: ${JSON.stringify(self, null, 2)}`);
+    setTimeout(function() {
+      const result = [];
+      for(var i = 0; i < comments.length; i++) {
+        result.push(options.fn(comments[i]));
+      }
+      resultcb(result.join(''));
     }, getRandomNumber(100, 900))
   });
 
